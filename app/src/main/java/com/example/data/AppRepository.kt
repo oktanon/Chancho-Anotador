@@ -39,4 +39,16 @@ class AppRepository(private val appDao: AppDao) {
             appDao.updateGame(game.copy(endTime = System.currentTimeMillis()))
         }
     }
+
+    suspend fun deleteGame(gameId: Long) {
+        appDao.deleteGame(gameId)
+    }
+
+    suspend fun deleteAllGames() {
+        appDao.deleteAllGames()
+    }
+
+    suspend fun getActiveGame(): GameWithPlayers? {
+        return appDao.getActiveGame()
+    }
 }

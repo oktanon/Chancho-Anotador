@@ -20,10 +20,37 @@ import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale
 
+import androidx.compose.material.icons.filled.Delete
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
+
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun HistoryScreen(navController: NavController, viewModel: MainViewModel) {
     val history by viewModel.history.collectAsStateWithLifecycle()
+    var showClearDialog by remember { mutableStateOf(false) }
+
+    if (showClearDialog) {
+        AlertDialog(
+            onDismissRequest = { showClearDialog = false },
+            title = { Text("¿Vaciar Historial?") },
+            text = { Text("Se eliminarán permanentemente todas las partidas registradas.") },
+            confirmButton = {
+                TextButton(onClick = {
+                    showClearDialog = false
+                    viewModel.deleteAllGames()
+                }) {
+                    Text("Borrar Todo", color = MaterialTheme.colorScheme.error)
+                }
+            },
+            dismissButton = {
+                TextButton(onClick = { showClearDialog = false }) {
+                    Text("Cancelar")
+                }
+            }
+        )
+    }
 
     Scaffold(
         topBar = {
@@ -32,6 +59,13 @@ fun HistoryScreen(navController: NavController, viewModel: MainViewModel) {
                 navigationIcon = {
                     IconButton(onClick = { navController.popBackStack() }) {
                         Icon(Icons.AutoMirrored.Filled.ArrowBack, contentDescription = "Volver")
+                    }
+                },
+                actions = {
+                    if (history.isNotEmpty()) {
+                        IconButton(onClick = { showClearDialog = true }) {
+                            Icon(Icons.Default.Delete, contentDescription = "Vaciar Historial")
+                        }
                     }
                 }
             )
@@ -51,7 +85,7 @@ fun HistoryScreen(navController: NavController, viewModel: MainViewModel) {
                 verticalArrangement = Arrangement.spacedBy(16.dp)
             ) {
                 items(history) { gameWithPlayers ->
-                    HistoryCard(gameWithPlayers)
+                    HistoryCard(gameWithPlayers, onDelete = { viewModel.deleteGame(gameWithPlayers.game.id) })
                 }
             }
         }
@@ -59,10 +93,32 @@ fun HistoryScreen(navController: NavController, viewModel: MainViewModel) {
 }
 
 @Composable
-fun HistoryCard(gameWithPlayers: GameWithPlayers) {
+fun HistoryCard(gameWithPlayers: GameWithPlayers, onDelete: () -> Unit) {
     val dateFormat = SimpleDateFormat("dd/MM/yyyy HH:mm", Locale.getDefault())
     val startStr = dateFormat.format(Date(gameWithPlayers.game.startTime))
     val endStr = gameWithPlayers.game.endTime?.let { dateFormat.format(Date(it)) } ?: "En curso"
+    var showDeleteDialog by remember { mutableStateOf(false) }
+
+    if (showDeleteDialog) {
+        AlertDialog(
+            onDismissRequest = { showDeleteDialog = false },
+            title = { Text("¿Eliminar Partida?") },
+            text = { Text("Se eliminará esta partida del historial de forma permanente.") },
+            confirmButton = {
+                TextButton(onClick = {
+                    showDeleteDialog = false
+                    onDelete()
+                }) {
+                    Text("Eliminar", color = MaterialTheme.colorScheme.error)
+                }
+            },
+            dismissButton = {
+                TextButton(onClick = { showDeleteDialog = false }) {
+                    Text("Cancelar")
+                }
+            }
+        )
+    }
 
     Card(
         modifier = Modifier.fillMaxWidth(),
@@ -73,8 +129,20 @@ fun HistoryCard(gameWithPlayers: GameWithPlayers) {
                 .fillMaxWidth()
                 .padding(16.dp)
         ) {
-            Text("Inicio: $startStr", style = MaterialTheme.typography.bodyMedium)
-            Text("Fin: $endStr", style = MaterialTheme.typography.bodyMedium, color = MaterialTheme.colorScheme.outline)
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                horizontalArrangement = Arrangement.SpaceBetween,
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                Column {
+                    Text("Inicio: $startStr", style = MaterialTheme.typography.bodyMedium)
+                    Text("Fin: $endStr", style = MaterialTheme.typography.bodyMedium, color = MaterialTheme.colorScheme.outline)
+                }
+                IconButton(onClick = { showDeleteDialog = true }) {
+                    Icon(Icons.Default.Delete, contentDescription = "Eliminar", tint = MaterialTheme.colorScheme.outline)
+                }
+            }
+
             
             Spacer(modifier = Modifier.height(8.dp))
             HorizontalDivider()

@@ -8,6 +8,7 @@ import androidx.room.RoomDatabase
 @Database(entities = [GameEntity::class, PlayerEntity::class], version = 1, exportSchema = false)
 abstract class AppDatabase : RoomDatabase() {
     abstract fun appDao(): AppDao
+    // touch
 
     companion object {
         @Volatile

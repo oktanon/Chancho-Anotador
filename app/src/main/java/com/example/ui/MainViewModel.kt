@@ -58,10 +58,43 @@ class MainViewModel(private val repository: AppRepository) : ViewModel() {
         }
     }
 
+    fun getGameFlow(gameId: Long): StateFlow<GameWithPlayers?> {
+        return repository.getGameWithPlayers(gameId)
+            .stateIn(
+                scope = viewModelScope,
+                started = SharingStarted.WhileSubscribed(5000),
+                initialValue = null
+            )
+    }
+
+    private val _activeGame = MutableStateFlow<GameWithPlayers?>(null)
+    val activeGame: StateFlow<GameWithPlayers?> = _activeGame
+
+    fun checkActiveGame() {
+        viewModelScope.launch {
+            _activeGame.value = repository.getActiveGame()
+        }
+    }
+
+    fun deleteGame(gameId: Long) {
+        viewModelScope.launch {
+            repository.deleteGame(gameId)
+            checkActiveGame()
+        }
+    }
+
+    fun deleteAllGames() {
+        viewModelScope.launch {
+            repository.deleteAllGames()
+            checkActiveGame()
+        }
+    }
+
     fun finishGame(gameId: Long) {
         viewModelScope.launch {
             repository.finishGame(gameId)
             _currentGameId.value = null
+            checkActiveGame()
         }
     }
 }

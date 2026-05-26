@@ -29,6 +29,8 @@ import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale
 
+import androidx.activity.compose.BackHandler
+
 @OptIn(ExperimentalMaterial3Api::class, ExperimentalFoundationApi::class)
 @Composable
 fun InGameScreen(navController: NavController, viewModel: MainViewModel, gameId: Long) {
@@ -38,6 +40,40 @@ fun InGameScreen(navController: NavController, viewModel: MainViewModel, gameId:
 
     val gameState by viewModel.currentGame.collectAsStateWithLifecycle()
     var isCompactMode by remember { mutableStateOf(false) }
+    var showDialog by remember { mutableStateOf(false) }
+
+    BackHandler {
+        showDialog = true
+    }
+
+    if (showDialog) {
+        AlertDialog(
+            onDismissRequest = { showDialog = false },
+            title = { Text("¿Abandonar Partida?") },
+            text = { Text("Si sales ahora, puedes pausarla para continuar luego o finalizarla por completo.") },
+            confirmButton = {
+                TextButton(onClick = {
+                    showDialog = false
+                    viewModel.finishGame(gameId)
+                    navController.navigate("game_result/$gameId") {
+                        popUpTo("main_menu")
+                    }
+                }) {
+                    Text("Finalizar", color = MaterialTheme.colorScheme.error)
+                }
+            },
+            dismissButton = {
+                TextButton(onClick = {
+                    showDialog = false
+                    navController.navigate("main_menu") {
+                        popUpTo(0)
+                    }
+                }) {
+                    Text("Pausar (Continuar luego)")
+                }
+            }
+        )
+    }
 
     Scaffold(
         topBar = {
@@ -53,10 +89,11 @@ fun InGameScreen(navController: NavController, viewModel: MainViewModel, gameId:
                     }
                 },
                 navigationIcon = {
-                    IconButton(onClick = { navController.popBackStack() }) { 
+                    IconButton(onClick = { showDialog = true }) { 
                         Icon(Icons.AutoMirrored.Filled.ArrowBack, contentDescription = "Volver")
                     }
                 },
+
                 colors = TopAppBarDefaults.topAppBarColors(
                     containerColor = MaterialTheme.colorScheme.background
                 )
@@ -88,7 +125,7 @@ fun InGameScreen(navController: NavController, viewModel: MainViewModel, gameId:
                     horizontalArrangement = Arrangement.spacedBy(12.dp)
                 ) {
                     Button(
-                        onClick = { /* Handle settings/adjustments if needed */ },
+                        onClick = { navController.navigate("settings") },
                         modifier = Modifier.weight(1f).height(56.dp),
                         shape = RoundedCornerShape(28.dp),
                         colors = ButtonDefaults.buttonColors(
@@ -103,8 +140,8 @@ fun InGameScreen(navController: NavController, viewModel: MainViewModel, gameId:
                     Button(
                         onClick = {
                             viewModel.finishGame(gameId)
-                            navController.navigate("main_menu") {
-                                popUpTo(0)
+                            navController.navigate("game_result/$gameId") {
+                                popUpTo("main_menu")
                             }
                         },
                         modifier = Modifier.weight(1f).height(56.dp),

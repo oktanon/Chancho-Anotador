@@ -35,4 +35,14 @@ interface AppDao {
     
     @Query("SELECT * FROM games WHERE id = :gameId")
     suspend fun getGame(gameId: Long): GameEntity?
+
+    @Query("DELETE FROM games WHERE id = :gameId")
+    suspend fun deleteGame(gameId: Long)
+
+    @Query("DELETE FROM games")
+    suspend fun deleteAllGames()
+
+    @Transaction
+    @Query("SELECT * FROM games WHERE endTime IS NULL ORDER BY startTime DESC LIMIT 1")
+    suspend fun getActiveGame(): GameWithPlayers?
 }
