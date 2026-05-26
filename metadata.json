@@ -1,0 +1,6 @@
+{
+  "name": "Chancho Va!",
+  "description": "Anotador para el juego de cartas Chancho Va! Calcula penalizaciones y guarda el historial de partidas.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
