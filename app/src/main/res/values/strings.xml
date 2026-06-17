@@ -1,3 +1,79 @@
 <resources>
     <string name="app_name">Chancho Va!</string>
+    <!-- Common -->
+    <string name="cancel">Cancel</string>
+    <string name="back">Back</string>
+    <string name="settings">Settings</string>
+    <string name="eliminated">ELIMINATED</string>
+    <string name="undefeated">UNDEFEATED</string>
+    <string name="home">Home</string>
+    <string name="delete">Delete</string>
+    <string name="start">Start</string>
+
+    <!-- Main Menu -->
+    <string name="resume_game">Resume Game</string>
+    <string name="new_game">New Game</string>
+    <string name="history">History</string>
+
+    <!-- Settings -->
+    <string name="app_theme">App Theme</string>
+    <string name="system_default">System Default</string>
+    <string name="light">Light</string>
+    <string name="dark">Dark</string>
+    <string name="app_language">App Language</string>
+    <string name="english">English</string>
+    <string name="spanish">Spanish</string>
+    <string name="emotion_icons">Emotion Icons</string>
+    <string name="show_pig_icons">Show pig icons</string>
+    <string name="icon_position">Icon Position</string>
+    <string name="left_of_letters">Left of the letters</string>
+    <string name="full_height">Occupy full height</string>
+
+    <!-- New Game -->
+    <string name="player_n">Player %d</string>
+    <string name="delete_player">Delete player</string>
+    <string name="add_player">Add Player</string>
+
+    <!-- In Game -->
+    <string name="leave_game_title">Leave Game?</string>
+    <string name="leave_game_text">If you exit now, you can pause it to continue later or finish it completely.</string>
+    <string name="finish">Finish</string>
+    <string name="finish_completely">Finish (End game)</string>
+    <string name="pause_continue_later">Pause (Continue later)</string>
+    <string name="finish_game_title">Finish Game?</string>
+    <string name="finish_game_text">Are you sure you want to finish the game now and see the final results?</string>
+    <string name="current_game">Current Game</string>
+    <string name="expanded">EXPANDED</string>
+    <string name="compact">COMPACT</string>
+    <string name="tap_add_remove">Tap to add letter • Long press to remove</string>
+    <string name="started_time">Started: %s</string>
+    <string name="in_game">IN GAME</string>
+    <string name="penultimate">PENULTIMATE</string>
+    <string name="one_letter">1 LETTER</string>
+    <string name="n_letters">%d LETTERS</string>
+
+    <!-- History -->
+    <string name="clear_history_title">Clear History?</string>
+    <string name="clear_history_text">All recorded games will be permanently deleted.</string>
+    <string name="clear_all">Clear All</string>
+    <string name="game_history">Game History</string>
+    <string name="no_games">No games recorded.</string>
+    <string name="delete_game_title">Delete Game?</string>
+    <string name="delete_game_text">This game will be permanently deleted from the history.</string>
+    <string name="start_time">Start: %s</string>
+    <string name="end_time">End: %s</string>
+    <string name="in_progress">In progress</string>
+
+    <!-- Results -->
+    <string name="results">Results</string>
+    <string name="share">Share</string>
+    <string name="share_results">Share Results</string>
+    <string name="share_how">How would you like to share the results?</string>
+    <string name="image_screenshot">Image (Screenshot)</string>
+    <string name="text">Text</string>
+    <string name="results_title">Chancho Va! - Results</string>
+    <string name="unknown">Unknown</string>
+    <string name="players">Players:</string>
+    <string name="results_share_text_title">🐷 Chancho Va! Results 🐷\n\n</string>
+    <string name="positions">Positions:\n</string>
 </resources>

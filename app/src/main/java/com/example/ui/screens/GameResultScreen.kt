@@ -21,12 +21,14 @@ import androidx.compose.ui.graphics.asAndroidBitmap
 import androidx.compose.ui.graphics.layer.drawLayer
 import androidx.compose.ui.graphics.rememberGraphicsLayer
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.core.content.FileProvider
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
+import com.example.R
 import com.example.data.GameWithPlayers
 import com.example.data.PlayerEntity
 import com.example.ui.MainViewModel
@@ -49,16 +51,16 @@ fun GameResultScreen(navController: NavController, viewModel: MainViewModel, gam
     Scaffold(
         topBar = {
             TopAppBar(
-                title = { Text("Resultados") },
+                title = { Text(stringResource(R.string.results)) },
                 navigationIcon = {
                     IconButton(onClick = { navController.navigate("main_menu") { popUpTo(0) } }) {
-                        Icon(Icons.Filled.Home, contentDescription = "Inicio")
+                        Icon(Icons.Filled.Home, contentDescription = stringResource(R.string.home))
                     }
                 },
                 actions = {
                     if (gameState != null) {
                         IconButton(onClick = { showShareOptions = true }) {
-                            Icon(Icons.Filled.Share, contentDescription = "Compartir")
+                            Icon(Icons.Filled.Share, contentDescription = stringResource(R.string.share))
                         }
                     }
                 }
@@ -79,10 +81,12 @@ fun GameResultScreen(navController: NavController, viewModel: MainViewModel, gam
                     .padding(paddingValues)
             ) {
                 if (showShareOptions) {
+                    val shareTitle = stringResource(R.string.share_results)
+                    val shareTextBody = generateResultText(gameState!!, LocalContext.current)
                     AlertDialog(
                         onDismissRequest = { showShareOptions = false },
-                        title = { Text("Compartir Resultados") },
-                        text = { Text("¿Cómo deseas compartir los resultados de esta partida?") },
+                        title = { Text(stringResource(R.string.share_results)) },
+                        text = { Text(stringResource(R.string.share_how)) },
                         confirmButton = {
                             TextButton(onClick = {
                                 showShareOptions = false
@@ -100,23 +104,22 @@ fun GameResultScreen(navController: NavController, viewModel: MainViewModel, gam
                                         putExtra(Intent.EXTRA_STREAM, uri)
                                         addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
                                     }
-                                    context.startActivity(Intent.createChooser(intent, "Compartir Imagen"))
+                                    context.startActivity(Intent.createChooser(intent, shareTitle))
                                 }
                             }) {
-                                Text("Imagen (Screenshot)")
+                                Text(stringResource(R.string.image_screenshot))
                             }
                         },
                         dismissButton = {
                             TextButton(onClick = {
                                 showShareOptions = false
-                                val text = generateResultText(gameState!!)
                                 val intent = Intent(Intent.ACTION_SEND).apply {
                                     type = "text/plain"
-                                    putExtra(Intent.EXTRA_TEXT, text)
+                                    putExtra(Intent.EXTRA_TEXT, shareTextBody)
                                 }
-                                context.startActivity(Intent.createChooser(intent, "Compartir Texto"))
+                                context.startActivity(Intent.createChooser(intent, shareTitle))
                             }) {
-                                Text("Texto")
+                                Text(stringResource(R.string.text))
                             }
                         }
                     )
@@ -136,7 +139,7 @@ fun GameResultScreen(navController: NavController, viewModel: MainViewModel, gam
                         .padding(16.dp)
                 ) {
                     Text(
-                        text = "Chancho Va! - Resultados",
+                        text = stringResource(R.string.results_title),
                         style = MaterialTheme.typography.headlineSmall,
                         fontWeight = FontWeight.Bold,
                         color = MaterialTheme.colorScheme.primary,
@@ -145,14 +148,14 @@ fun GameResultScreen(navController: NavController, viewModel: MainViewModel, gam
                     
                     val dateFormat = SimpleDateFormat("dd/MM/yyyy HH:mm", Locale.getDefault())
                     val startTime = dateFormat.format(Date(game.startTime))
-                    val endTime = game.endTime?.let { dateFormat.format(Date(it)) } ?: "Desconocido"
+                    val endTime = game.endTime?.let { dateFormat.format(Date(it)) } ?: stringResource(R.string.unknown)
 
-                    Text("Inicio: $startTime", style = MaterialTheme.typography.bodyMedium)
-                    Text("Fin: $endTime", style = MaterialTheme.typography.bodyMedium)
+                    Text(stringResource(R.string.start_time, startTime), style = MaterialTheme.typography.bodyMedium)
+                    Text(stringResource(R.string.end_time, endTime), style = MaterialTheme.typography.bodyMedium)
                     
                     Spacer(modifier = Modifier.height(16.dp))
                     
-                    Text("Jugadores:", style = MaterialTheme.typography.titleMedium, fontWeight = FontWeight.SemiBold)
+                    Text(stringResource(R.string.players), style = MaterialTheme.typography.titleMedium, fontWeight = FontWeight.SemiBold)
                     Spacer(modifier = Modifier.height(8.dp))
 
                     players.forEach { player ->
@@ -200,7 +203,7 @@ fun ResultPlayerCard(player: PlayerEntity) {
                     shape = RoundedCornerShape(4.dp)
                 ) {
                     Text(
-                        text = "ELIMINADO",
+                        text = stringResource(R.string.eliminated),
                         modifier = Modifier.padding(horizontal = 6.dp, vertical = 3.dp),
                         fontSize = 11.sp,
                         fontWeight = FontWeight.Bold,
@@ -214,7 +217,7 @@ fun ResultPlayerCard(player: PlayerEntity) {
                     shape = RoundedCornerShape(4.dp)
                 ) {
                     Text(
-                        text = "INVICTO",
+                        text = stringResource(R.string.undefeated),
                         modifier = Modifier.padding(horizontal = 6.dp, vertical = 3.dp),
                         fontSize = 11.sp,
                         fontWeight = FontWeight.Bold,
@@ -245,27 +248,27 @@ fun ResultPlayerCard(player: PlayerEntity) {
     }
 }
 
-fun generateResultText(state: GameWithPlayers): String {
+fun generateResultText(state: GameWithPlayers, context: android.content.Context): String {
     val builder = java.lang.StringBuilder()
-    builder.append("🐷 Resultados de Chancho Va! 🐷\n\n")
+    builder.append(context.getString(R.string.results_share_text_title))
     
     val game = state.game
     val players = state.players.sortedBy { it.score }
     
     val dateFormat = SimpleDateFormat("dd/MM/yyyy HH:mm", Locale.getDefault())
     val startTime = dateFormat.format(Date(game.startTime))
-    val endTime = game.endTime?.let { dateFormat.format(Date(it)) } ?: "Desconocido"
+    val endTime = game.endTime?.let { dateFormat.format(Date(it)) } ?: context.getString(R.string.unknown)
 
-    builder.append("Inicio: $startTime\n")
-    builder.append("Fin: $endTime\n\n")
+    builder.append(context.getString(R.string.start_time, startTime)).append("\n")
+    builder.append(context.getString(R.string.end_time, endTime)).append("\n\n")
     
-    builder.append("Posiciones:\n")
+    builder.append(context.getString(R.string.positions))
     players.forEachIndexed { index, player ->
         val position = index + 1
         val score = player.score.coerceIn(0, 7)
         val status = when {
-            score >= 7 -> "Eliminado"
-            score == 0 -> "Invicto"
+            score >= 7 -> context.getString(R.string.eliminated)
+            score == 0 -> context.getString(R.string.undefeated)
             else -> "CHANCHO".take(score)
         }
         builder.append("$position. ${player.name} - $status\n")

@@ -1,7 +1,7 @@
 package com.example
 
 import android.os.Bundle
-import androidx.activity.ComponentActivity
+import androidx.appcompat.app.AppCompatActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.compose.foundation.isSystemInDarkTheme
@@ -31,7 +31,7 @@ import com.example.ui.screens.NewGameScreen
 import com.example.ui.screens.SettingsScreen
 import com.example.ui.theme.MyApplicationTheme
 
-class MainActivity : ComponentActivity() {
+class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
@@ -84,7 +84,7 @@ fun ChanchoApp(viewModel: MainViewModel, themeRepository: ThemeRepository) {
             ) { backStackEntry ->
                 val gameId = backStackEntry.arguments?.getLong("gameId")
                 if (gameId != null) {
-                    InGameScreen(navController, viewModel, gameId)
+                    InGameScreen(navController, viewModel, gameId, themeRepository)
                 }
             }
             composable(

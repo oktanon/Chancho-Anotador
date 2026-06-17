@@ -1,0 +1,79 @@
+<resources>
+    <string name="app_name">Chancho Va!</string>
+    <!-- Common -->
+    <string name="cancel">Cancelar</string>
+    <string name="back">Volver</string>
+    <string name="settings">Ajustes</string>
+    <string name="eliminated">ELIMINADO</string>
+    <string name="undefeated">INVICTO</string>
+    <string name="home">Inicio</string>
+    <string name="delete">Eliminar</string>
+    <string name="start">Empezar</string>
+
+    <!-- Main Menu -->
+    <string name="resume_game">Reanudar Partida</string>
+    <string name="new_game">Nueva Partida</string>
+    <string name="history">Historial</string>
+
+    <!-- Settings -->
+    <string name="app_theme">Tema de la aplicación</string>
+    <string name="system_default">Igual que el sistema</string>
+    <string name="light">Claro</string>
+    <string name="dark">Oscuro</string>
+    <string name="app_language">Idioma de la aplicación</string>
+    <string name="english">Inglés</string>
+    <string name="spanish">Español</string>
+    <string name="emotion_icons">Iconos de Emociones</string>
+    <string name="show_pig_icons">Mostrar iconos de chanchos</string>
+    <string name="icon_position">Posición de los iconos</string>
+    <string name="left_of_letters">A la izquierda de las letras</string>
+    <string name="full_height">Ocupar todo el alto</string>
+
+    <!-- New Game -->
+    <string name="player_n">Jugador %d</string>
+    <string name="delete_player">Eliminar jugador</string>
+    <string name="add_player">Agregar Jugador</string>
+
+    <!-- In Game -->
+    <string name="leave_game_title">¿Abandonar Partida?</string>
+    <string name="leave_game_text">Si sales ahora, puedes pausarla para continuar luego o finalizarla por completo.</string>
+    <string name="finish">Finalizar</string>
+    <string name="finish_completely">Terminar</string>
+    <string name="pause_continue_later">Pausar (Continuar luego)</string>
+    <string name="finish_game_title">¿Terminar Partida?</string>
+    <string name="finish_game_text">¿Estás seguro que deseas terminar la partida ahora y ver los resultados finales?</string>
+    <string name="current_game">Partida Actual</string>
+    <string name="expanded">AMPLIADO</string>
+    <string name="compact">COMPACTO</string>
+    <string name="tap_add_remove">Toque para sumar letra • Toque largo para quitar</string>
+    <string name="started_time">Iniciada: %s</string>
+    <string name="in_game">EN JUEGO</string>
+    <string name="penultimate">PENÚLTIMA</string>
+    <string name="one_letter">1 LETRA</string>
+    <string name="n_letters">%d LETRAS</string>
+
+    <!-- History -->
+    <string name="clear_history_title">¿Vaciar Historial?</string>
+    <string name="clear_history_text">Se eliminarán permanentemente todas las partidas registradas.</string>
+    <string name="clear_all">Borrar Todo</string>
+    <string name="game_history">Historial de Partidas</string>
+    <string name="no_games">No hay partidas registradas.</string>
+    <string name="delete_game_title">¿Eliminar Partida?</string>
+    <string name="delete_game_text">Se eliminará esta partida del historial de forma permanente.</string>
+    <string name="start_time">Inicio: %s</string>
+    <string name="end_time">Fin: %s</string>
+    <string name="in_progress">En curso</string>
+
+    <!-- Results -->
+    <string name="results">Resultados</string>
+    <string name="share">Compartir</string>
+    <string name="share_results">Compartir Resultados</string>
+    <string name="share_how">¿Cómo deseas compartir los resultados de esta partida?</string>
+    <string name="image_screenshot">Imagen (Screenshot)</string>
+    <string name="text">Texto</string>
+    <string name="results_title">Chancho Va! - Resultados</string>
+    <string name="unknown">Desconocido</string>
+    <string name="players">Jugadores:</string>
+    <string name="results_share_text_title">🐷 Resultados de Chancho Va! 🐷\n\n</string>
+    <string name="positions">Posiciones:\n</string>
+</resources>

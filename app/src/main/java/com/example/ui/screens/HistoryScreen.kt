@@ -10,10 +10,12 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
+import com.example.R
 import com.example.data.GameWithPlayers
 import com.example.ui.MainViewModel
 import java.text.SimpleDateFormat
@@ -34,19 +36,19 @@ fun HistoryScreen(navController: NavController, viewModel: MainViewModel) {
     if (showClearDialog) {
         AlertDialog(
             onDismissRequest = { showClearDialog = false },
-            title = { Text("¿Vaciar Historial?") },
-            text = { Text("Se eliminarán permanentemente todas las partidas registradas.") },
+            title = { Text(stringResource(R.string.clear_history_title)) },
+            text = { Text(stringResource(R.string.clear_history_text)) },
             confirmButton = {
                 TextButton(onClick = {
                     showClearDialog = false
                     viewModel.deleteAllGames()
                 }) {
-                    Text("Borrar Todo", color = MaterialTheme.colorScheme.error)
+                    Text(stringResource(R.string.clear_all), color = MaterialTheme.colorScheme.error)
                 }
             },
             dismissButton = {
                 TextButton(onClick = { showClearDialog = false }) {
-                    Text("Cancelar")
+                    Text(stringResource(R.string.cancel))
                 }
             }
         )
@@ -55,16 +57,16 @@ fun HistoryScreen(navController: NavController, viewModel: MainViewModel) {
     Scaffold(
         topBar = {
             TopAppBar(
-                title = { Text("Historial de Partidas") },
+                title = { Text(stringResource(R.string.game_history)) },
                 navigationIcon = {
                     IconButton(onClick = { navController.popBackStack() }) {
-                        Icon(Icons.AutoMirrored.Filled.ArrowBack, contentDescription = "Volver")
+                        Icon(Icons.AutoMirrored.Filled.ArrowBack, contentDescription = stringResource(R.string.back))
                     }
                 },
                 actions = {
                     if (history.isNotEmpty()) {
                         IconButton(onClick = { showClearDialog = true }) {
-                            Icon(Icons.Default.Delete, contentDescription = "Vaciar Historial")
+                            Icon(Icons.Default.Delete, contentDescription = stringResource(R.string.clear_all))
                         }
                     }
                 }
@@ -73,7 +75,7 @@ fun HistoryScreen(navController: NavController, viewModel: MainViewModel) {
     ) { paddingValues ->
         if (history.isEmpty()) {
             Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
-                Text("No hay partidas registradas.")
+                Text(stringResource(R.string.no_games))
             }
         } else {
             LazyColumn(
@@ -96,25 +98,25 @@ fun HistoryScreen(navController: NavController, viewModel: MainViewModel) {
 fun HistoryCard(gameWithPlayers: GameWithPlayers, onDelete: () -> Unit) {
     val dateFormat = SimpleDateFormat("dd/MM/yyyy HH:mm", Locale.getDefault())
     val startStr = dateFormat.format(Date(gameWithPlayers.game.startTime))
-    val endStr = gameWithPlayers.game.endTime?.let { dateFormat.format(Date(it)) } ?: "En curso"
+    val endStr = gameWithPlayers.game.endTime?.let { dateFormat.format(Date(it)) } ?: stringResource(R.string.in_progress)
     var showDeleteDialog by remember { mutableStateOf(false) }
 
     if (showDeleteDialog) {
         AlertDialog(
             onDismissRequest = { showDeleteDialog = false },
-            title = { Text("¿Eliminar Partida?") },
-            text = { Text("Se eliminará esta partida del historial de forma permanente.") },
+            title = { Text(stringResource(R.string.delete_game_title)) },
+            text = { Text(stringResource(R.string.delete_game_text)) },
             confirmButton = {
                 TextButton(onClick = {
                     showDeleteDialog = false
                     onDelete()
                 }) {
-                    Text("Eliminar", color = MaterialTheme.colorScheme.error)
+                    Text(stringResource(R.string.delete), color = MaterialTheme.colorScheme.error)
                 }
             },
             dismissButton = {
                 TextButton(onClick = { showDeleteDialog = false }) {
-                    Text("Cancelar")
+                    Text(stringResource(R.string.cancel))
                 }
             }
         )
@@ -135,11 +137,11 @@ fun HistoryCard(gameWithPlayers: GameWithPlayers, onDelete: () -> Unit) {
                 verticalAlignment = Alignment.CenterVertically
             ) {
                 Column {
-                    Text("Inicio: $startStr", style = MaterialTheme.typography.bodyMedium)
-                    Text("Fin: $endStr", style = MaterialTheme.typography.bodyMedium, color = MaterialTheme.colorScheme.outline)
+                    Text(stringResource(R.string.start_time, startStr), style = MaterialTheme.typography.bodyMedium)
+                    Text(stringResource(R.string.end_time, endStr), style = MaterialTheme.typography.bodyMedium, color = MaterialTheme.colorScheme.outline)
                 }
                 IconButton(onClick = { showDeleteDialog = true }) {
-                    Icon(Icons.Default.Delete, contentDescription = "Eliminar", tint = MaterialTheme.colorScheme.outline)
+                    Icon(Icons.Default.Delete, contentDescription = stringResource(R.string.delete), tint = MaterialTheme.colorScheme.outline)
                 }
             }
 
@@ -150,7 +152,8 @@ fun HistoryCard(gameWithPlayers: GameWithPlayers, onDelete: () -> Unit) {
 
             val word = "CHANCHO"
             gameWithPlayers.players.forEach { player ->
-                val scoreDisplay = if (player.score >= 7) "ELIMINADO" else word.substring(0, player.score.coerceIn(0, 7))
+                val eliminatedString = stringResource(R.string.eliminated)
+                val scoreDisplay = if (player.score >= 7) eliminatedString else word.substring(0, player.score.coerceIn(0, 7))
                 Row(
                     modifier = Modifier.fillMaxWidth().padding(vertical = 4.dp),
                     horizontalArrangement = Arrangement.SpaceBetween

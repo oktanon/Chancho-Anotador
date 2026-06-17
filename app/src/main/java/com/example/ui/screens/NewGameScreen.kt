@@ -11,8 +11,10 @@ import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
+import com.example.R
 import com.example.ui.MainViewModel
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -23,10 +25,10 @@ fun NewGameScreen(navController: NavController, viewModel: MainViewModel) {
     Scaffold(
         topBar = {
             TopAppBar(
-                title = { Text("Nueva Partida") },
+                title = { Text(stringResource(R.string.new_game)) },
                 navigationIcon = {
                     IconButton(onClick = { navController.popBackStack() }) {
-                        Icon(Icons.AutoMirrored.Filled.ArrowBack, contentDescription = "Volver")
+                        Icon(Icons.AutoMirrored.Filled.ArrowBack, contentDescription = stringResource(R.string.back))
                     }
                 }
             )
@@ -43,8 +45,8 @@ fun NewGameScreen(navController: NavController, viewModel: MainViewModel) {
                         }
                     }
                 },
-                icon = { Icon(Icons.Default.Add, contentDescription = "Empezar") },
-                text = { Text("Empezar") }
+                icon = { Icon(Icons.Default.Add, contentDescription = stringResource(R.string.start)) },
+                text = { Text(stringResource(R.string.start)) }
             )
         }
     ) { paddingValues ->
@@ -68,7 +70,7 @@ fun NewGameScreen(navController: NavController, viewModel: MainViewModel) {
                             newList[index] = newValue
                             players = newList
                         },
-                        label = { Text("Jugador ${index + 1}") },
+                        label = { Text(stringResource(R.string.player_n, index + 1)) },
                         modifier = Modifier.weight(1f)
                     )
                     if (players.size > 2) {
@@ -79,7 +81,7 @@ fun NewGameScreen(navController: NavController, viewModel: MainViewModel) {
                         }) {
                             Icon(
                                 Icons.Default.Delete,
-                                contentDescription = "Eliminar jugador",
+                                contentDescription = stringResource(R.string.delete_player),
                                 tint = MaterialTheme.colorScheme.error
                             )
                         }
@@ -93,7 +95,7 @@ fun NewGameScreen(navController: NavController, viewModel: MainViewModel) {
                     },
                     modifier = Modifier.padding(top = 8.dp)
                 ) {
-                    Text("Agregar Jugador")
+                    Text(stringResource(R.string.add_player))
                 }
             }
         }

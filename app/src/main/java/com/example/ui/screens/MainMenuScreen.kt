@@ -11,7 +11,9 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 
+import androidx.compose.ui.res.stringResource
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import com.example.R
 import com.example.ui.MainViewModel
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -29,7 +31,7 @@ fun MainMenuScreen(navController: NavController, viewModel: MainViewModel) {
                 title = { },
                 actions = {
                     IconButton(onClick = { navController.navigate("settings") }) {
-                        Icon(Icons.Default.Settings, contentDescription = "Ajustes")
+                        Icon(Icons.Default.Settings, contentDescription = stringResource(R.string.settings))
                     }
                 },
                 colors = TopAppBarDefaults.topAppBarColors(containerColor = androidx.compose.ui.graphics.Color.Transparent)
@@ -45,7 +47,7 @@ fun MainMenuScreen(navController: NavController, viewModel: MainViewModel) {
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
                 Text(
-                    text = "Chancho Va!",
+                    text = stringResource(R.string.app_name),
                     style = MaterialTheme.typography.displayLarge,
                     fontWeight = FontWeight.Bold,
                     color = MaterialTheme.colorScheme.primary,
@@ -61,7 +63,7 @@ fun MainMenuScreen(navController: NavController, viewModel: MainViewModel) {
                         .padding(bottom = 16.dp),
                     colors = ButtonDefaults.buttonColors(containerColor = MaterialTheme.colorScheme.tertiary)
                 ) {
-                    Text("Reanudar Partida", style = MaterialTheme.typography.titleMedium)
+                    Text(stringResource(R.string.resume_game), style = MaterialTheme.typography.titleMedium)
                 }
             }
 
@@ -72,7 +74,7 @@ fun MainMenuScreen(navController: NavController, viewModel: MainViewModel) {
                     .height(56.dp)
                     .padding(bottom = 16.dp)
             ) {
-                Text("Nueva Partida", style = MaterialTheme.typography.titleMedium)
+                Text(stringResource(R.string.new_game), style = MaterialTheme.typography.titleMedium)
             }
 
 
@@ -82,7 +84,7 @@ fun MainMenuScreen(navController: NavController, viewModel: MainViewModel) {
                     .fillMaxWidth(0.8f)
                     .height(56.dp)
             ) {
-                Text("Historial", style = MaterialTheme.typography.titleMedium)
+                Text(stringResource(R.string.history), style = MaterialTheme.typography.titleMedium)
             }
         }
     }
